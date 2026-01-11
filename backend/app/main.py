@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+import os
 from app.api import chat, user, assessment, upload
 from app.utils.logger import configure_logging
 
@@ -23,13 +25,19 @@ app.include_router(user.router, tags=["user"])
 app.include_router(assessment.router, prefix="/assessment", tags=["assessment"])
 app.include_router(upload.router, tags=["upload"])
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to AI Study Buddy API", "docs": "/docs"}
-
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+# Serve static files from the frontend/dist directory
+# This should be mounted after all other routes
+frontend_path = os.path.join(os.path.dirname(__file__), "../../frontend/dist")
+if os.path.exists(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+else:
+    @app.get("/")
+    async def root():
+        return {"message": "Welcome to AI Study Buddy API (Frontend not built)", "docs": "/docs"}
 
 if __name__ == "__main__":
     import uvicorn
