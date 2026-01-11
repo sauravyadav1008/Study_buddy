@@ -1,0 +1,30 @@
+{
+    "type": "Microsoft.App/containerApps",
+    "apiVersion": "2023-05-01",
+    "name": "ai-study-buddy",
+    "location": "East US",
+    "properties": {
+        "configuration": {
+            "ingress": {
+                "external": true,
+                "targetPort": 80
+            }
+        },
+        "template": {
+            "containers": [
+                {
+                    "name": "frontend",
+                    "image": "studybuddy.azurecr.io/frontend:latest",
+                    "resources": {
+                        "cpu": 0.5,
+                        "memory": "1Gi"
+                    }
+                }
+            ],
+            "scale": {
+                "minReplicas": 1,
+                "maxReplicas": 3
+            }
+        }
+    }
+}

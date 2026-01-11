@@ -1,0 +1,19 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-text-splitters
+langchain-classic
+langchain-core
+langchain-ollama
+langchain-chroma
+chromadb
+pydantic-settings
+python-multipart
+python-dotenv
+requests
+uvloop; sys_platform != 'win32'
+PyPDF2
+python-docx
+Pillow
+pytesseract
