@@ -5,7 +5,7 @@ import MCQQuiz from './MCQQuiz';
 import type { MCQQuestion, MCQResult } from './MCQQuiz';
 import QAQuiz from './QAQuiz';
 import type { QAQuestion, QAResult } from './QAQuiz';
-import { cn } from '../lib/utils';
+import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Message {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Badge } from './ui/Badge';
 import { Lightbulb, CheckCircle2, RefreshCw, ChevronRight, BrainCircuit, Target, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../lib/utils';
+import { cn } from '@/lib/utils';
 
 export interface QAQuestion {
   id: string;

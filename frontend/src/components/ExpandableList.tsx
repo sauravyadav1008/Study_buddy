@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Badge } from "./ui/Badge";
 import { Button } from "./ui/Button";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 interface ExpandableListProps<T = string> {
   title: string;

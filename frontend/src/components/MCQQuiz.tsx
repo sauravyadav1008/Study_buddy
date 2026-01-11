@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Badge } from './ui/Badge';
 import { CheckCircle2, XCircle, Info, ChevronRight, RefreshCw, Trophy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../lib/utils';
+import { cn } from '@/lib/utils';
 
 export interface MCQQuestion {
   id: string;
