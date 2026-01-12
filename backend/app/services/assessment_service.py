@@ -184,20 +184,17 @@ class AssessmentService:
         
         topic.last_assessed = datetime.now()
         
-        # Update Strong/Weak areas lists
-        # Correct -> add to Strong Areas, remove from Weak
-        # Incorrect -> add to Weak Areas, remove from Strong
-        if points == 1.0:
+        # Update Strong/Weak areas lists based on status
+        if topic.status == "strong":
             if topic_name not in profile.known_concepts:
                 profile.known_concepts.append(topic_name)
             if topic_name in profile.weak_areas:
                 profile.weak_areas.remove(topic_name)
-        elif points == 0.0:
+        elif topic.status == "weak":
             if topic_name not in profile.weak_areas:
                 profile.weak_areas.append(topic_name)
             if topic_name in profile.known_concepts:
                 profile.known_concepts.remove(topic_name)
-        # points == 0.5 (Partial) -> no change as per instruction
         
         # Sync with old topic_mastery for compatibility
         profile.topic_mastery[topic_name] = topic.mastery

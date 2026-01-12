@@ -128,4 +128,5 @@ async def generate_revision(request: RevisionRequest):
     llm = get_ollama_llm(temperature=0.8)
     prompt = f"Explain the following topics in detail to help a student revise. Focus on areas where they might be weak. Topics: {request.topics}. Context: {context}"
     response = await llm.ainvoke(prompt)
-    return {"revision_material": response}
+    content = response.content if hasattr(response, 'content') else str(response)
+    return {"revision_material": content}

@@ -28,7 +28,25 @@ app.include_router(upload.router, tags=["upload"])
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    import httpx
+    from app.config import settings
+    
+    ollama_status = "unknown"
+    try:
+        async with httpx.AsyncClient(timeout=2.0) as client:
+            response = await client.get(f"{settings.OLLAMA_BASE_URL}/api/tags")
+            if response.status_code == 200:
+                ollama_status = "connected"
+            else:
+                ollama_status = f"error: {response.status_code}"
+    except Exception as e:
+        ollama_status = f"unreachable: {str(e)}"
+
+    return {
+        "status": "healthy",
+        "ollama": ollama_status,
+        "ollama_url": settings.OLLAMA_BASE_URL
+    }
 
 # Serve static files from the frontend/dist directory
 # Path is relative to the project root in Docker

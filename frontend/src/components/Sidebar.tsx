@@ -6,7 +6,7 @@ import ExpandableList from './ExpandableList';
 interface SidebarProps {
   profile: UserProfile | null;
   onReset: () => void;
-  onAssessmentClick: (type: 'mcq' | 'qa') => void;
+  onAssessmentClick: (type: 'mcq' | 'qa', query?: string) => void;
   onRevisionClick: () => void;
   onHistoryClick: () => void;
 }
@@ -31,16 +31,16 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
               <div className="absolute bottom-0.5 right-0.5 h-4 w-4 bg-emerald-400 border-2 border-white rounded-full shadow-lg" />
             </div>
             <div>
-              <h1 className="text-xl font-black tracking-tight text-slate-800 bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600">Study Buddy</h1>
-              <p className="text-[10px] text-vibrant-blue font-black uppercase tracking-[0.2em]">Genius Assistant</p>
+              <h1 className="text-xl font-bold tracking-tight text-slate-800 bg-clip-text text-transparent bg-gradient-to-br from-slate-900 to-slate-600">Study Buddy</h1>
+              <p className="text-[10px] text-vibrant-blue font-bold uppercase tracking-[0.2em]">Genius Assistant</p>
             </div>
           </div>
 
-          <div className="space-y-10 flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
-            <div className="space-y-4">
+          <div className="space-y-12 flex-1 overflow-y-auto pr-4 custom-scrollbar min-h-0">
+            <div className="space-y-5">
               <div className="flex justify-between items-end px-1">
-                <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Mastery Progress</span>
-                <span className="text-sm font-black text-vibrant-blue">{percentage}%</span>
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Mastery Progress</span>
+                <span className="text-sm font-bold text-vibrant-blue">{percentage}%</span>
               </div>
               <div className="h-3 w-full bg-slate-100/40 rounded-full overflow-hidden p-[2px] border border-slate-100/50">
                 <div 
@@ -57,14 +57,31 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
             />
 
             <ExpandableList
+              title="Weak Areas"
+              items={profile?.weak_areas || []}
+              initialVisibleCount={3}
+              renderItem={(topic, i) => (
+                <div key={i} className="flex items-center justify-between bg-vibrant-coral/5 p-3 rounded-xl border border-vibrant-coral/10 mb-3">
+                   <span className="text-[11px] font-bold text-vibrant-coral uppercase tracking-tight truncate max-w-[120px]">{topic}</span>
+                   <button 
+                     onClick={() => onAssessmentClick('mcq', topic)}
+                     className="text-[9px] font-black text-white bg-vibrant-coral px-3 py-1.5 rounded-lg hover:scale-105 active:scale-95 transition-all shadow-md shadow-coral/20 uppercase tracking-widest"
+                   >
+                     Practice
+                   </button>
+                </div>
+              )}
+            />
+
+            <ExpandableList
               title="Skill Matrix"
               items={profile?.topic_mastery ? Object.entries(profile.topic_mastery) : []}
               initialVisibleCount={3}
               renderItem={([topic, mastery], i) => (
-                <div key={i} className="space-y-2.5 mb-5 bg-white/30 p-3 rounded-2xl border border-white/50 soft-shadow">
+                <div key={i} className="space-y-3 mb-6 bg-white/30 p-4 rounded-2xl border border-white/50 soft-shadow">
                   <div className="flex justify-between text-[11px] px-1">
-                    <span className="text-slate-700 font-bold truncate max-w-[150px]">{topic}</span>
-                    <span className="text-vibrant-coral font-black">{Math.round((mastery || 0) * 100)}%</span>
+                    <span className="text-slate-700 font-semibold truncate max-w-[150px]">{topic}</span>
+                    <span className="text-vibrant-coral font-bold">{Math.round((mastery || 0) * 100)}%</span>
                   </div>
                   <div className="h-2 w-full bg-slate-100/50 rounded-full overflow-hidden border border-white/50">
                     <div 
@@ -76,13 +93,13 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
               )}
             />
 
-            <div className="space-y-5 pt-6 border-t border-slate-200/30">
-              <h3 className="text-[11px] font-black text-slate-300 uppercase tracking-[0.25em] px-1">
+            <div className="space-y-6 pt-8 border-t border-slate-200/30">
+              <h3 className="text-[11px] font-bold text-slate-300 uppercase tracking-[0.25em] px-1">
                 Study Lab
               </h3>
-              <div className="flex flex-col gap-3.5">
+              <div className="flex flex-col gap-4">
                 <button 
-                  className="flex items-center justify-between px-5 py-4 bg-white/60 hover:bg-white text-slate-700 rounded-2xl text-[11px] font-black transition-all border border-white shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] group"
+                  className="flex items-center justify-between px-6 py-4 bg-white/60 hover:bg-white text-slate-700 rounded-2xl text-[11px] font-bold transition-all border border-white shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] group"
                   onClick={() => onAssessmentClick('mcq')}
                 >
                   <span className="flex items-center gap-3">
@@ -92,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity text-vibrant-blue">→</span>
                 </button>
                 <button 
-                  className="flex items-center justify-between px-5 py-4 bg-white/60 hover:bg-white text-slate-700 rounded-2xl text-[11px] font-black transition-all border border-white shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] group"
+                  className="flex items-center justify-between px-6 py-4 bg-white/60 hover:bg-white text-slate-700 rounded-2xl text-[11px] font-bold transition-all border border-white shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] group"
                   onClick={() => onAssessmentClick('qa')}
                 >
                   <span className="flex items-center gap-3">
@@ -104,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
                 
                 {profile?.weak_areas && profile.weak_areas.length > 0 ? (
                   <button 
-                    className="w-full mt-2 accent-gradient text-white py-4 rounded-2xl text-[11px] font-black shadow-xl shadow-coral/20 hover:shadow-2xl hover:shadow-coral/30 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest flex items-center justify-center gap-2"
+                    className="w-full mt-2 accent-gradient text-white py-4 rounded-2xl text-[11px] font-bold shadow-xl shadow-coral/20 hover:shadow-2xl hover:shadow-coral/30 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest flex items-center justify-center gap-2"
                     onClick={onRevisionClick}
                   >
                     🚀 Boost Weak Topics
@@ -117,14 +134,14 @@ const Sidebar: React.FC<SidebarProps> = ({ profile, onReset, onAssessmentClick, 
           <div className="mt-auto space-y-4 flex-shrink-0 pt-8 border-t border-slate-200/30">
             <button 
               onClick={onHistoryClick}
-              className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-vibrant-blue hover:bg-vibrant-blue/5 rounded-2xl text-[11px] font-black transition-all border border-transparent hover:border-vibrant-blue/10"
+              className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-vibrant-blue hover:bg-vibrant-blue/5 rounded-2xl text-[11px] font-bold transition-all border border-transparent hover:border-vibrant-blue/10"
             >
               <span className="text-xl">🕒</span>
               Session History
             </button>
             <button 
               onClick={onReset}
-              className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl text-[11px] font-black transition-all border border-transparent hover:border-red-100"
+              className="w-full flex items-center gap-4 px-4 py-3 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl text-[11px] font-bold transition-all border border-transparent hover:border-red-100"
             >
               <span className="text-xl">🔄</span>
               Wipe AI Memory

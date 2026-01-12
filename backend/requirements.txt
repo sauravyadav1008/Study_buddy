@@ -12,6 +12,7 @@ pydantic-settings
 python-multipart
 python-dotenv
 requests
+httpx
 uvloop; sys_platform != 'win32'
 PyPDF2
 python-docx

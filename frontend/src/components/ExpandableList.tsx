@@ -29,24 +29,24 @@ function ExpandableList<T = string>({
     <Badge
       key={index}
       variant="secondary"
-      className="bg-vibrant-blue/5 text-vibrant-blue border-vibrant-blue/10 text-[10px] py-1 px-3.5 rounded-full transition-all cursor-default hover:bg-vibrant-blue/10 font-black uppercase tracking-tight"
+      className="bg-vibrant-blue/5 text-vibrant-blue border-vibrant-blue/10 text-[10px] py-1.5 px-4 rounded-full transition-all cursor-default hover:bg-vibrant-blue/10 font-bold uppercase tracking-tight"
     >
       {String(item)}
     </Badge>
   );
 
   return (
-    <div className={cn("space-y-4", className)}>
-      <h3 className="text-[11px] font-black text-slate-300 uppercase tracking-[0.2em] px-0.5">
+    <div className={cn("space-y-5", className)}>
+      <h3 className="text-[11px] font-bold text-slate-300 uppercase tracking-[0.2em] px-0.5">
         {title}
       </h3>
-      <div className={cn(renderItem ? "space-y-3" : "flex flex-wrap gap-2.5")}>
+      <div className={cn(renderItem ? "space-y-4" : "flex flex-wrap gap-3")}>
         {items.length > 0 ? (
           visibleItems.map((item, index) =>
             renderItem ? renderItem(item, index) : defaultRender(item, index)
           )
         ) : (
-          <span className="text-[11px] text-slate-300 font-bold italic px-0.5">None discovered yet</span>
+          <span className="text-[11px] text-slate-300 font-semibold italic px-0.5">None discovered yet</span>
         )}
       </div>
       {hasMore && (
@@ -54,7 +54,7 @@ function ExpandableList<T = string>({
           variant="ghost"
           size="sm"
           onClick={toggleExpand}
-          className="px-2 py-1 h-auto font-black text-[10px] text-slate-400 hover:text-vibrant-blue hover:bg-vibrant-blue/5 rounded-lg transition-all"
+          className="px-2 py-1 h-auto font-bold text-[10px] text-slate-400 hover:text-vibrant-blue hover:bg-vibrant-blue/5 rounded-lg transition-all"
         >
           {isExpanded ? "Collapse ▲" : `View ${items.length - initialVisibleCount} More ▼`}
         </Button>

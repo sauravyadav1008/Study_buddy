@@ -42,19 +42,19 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
         )}
         
         <div className={cn(
-          "relative px-7 py-5 rounded-[2.2rem] text-[15px] leading-relaxed transition-all",
+          "relative px-8 py-6 rounded-[2.5rem] text-[16px] leading-[1.7] transition-all",
           isAssistant 
             ? "glass-card-vibrant border-white text-slate-700 rounded-bl-none shadow-xl hover:shadow-2xl" 
-            : "accent-gradient text-white rounded-br-none shadow-2xl shadow-vibrant-coral/20 hover:shadow-vibrant-coral/40 font-bold"
+            : "premium-gradient text-white rounded-br-none shadow-2xl shadow-vibrant-blue/20 hover:shadow-vibrant-blue/40 font-medium"
         )}>
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-[2.2rem] pointer-events-none opacity-10">
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-[2.5rem] pointer-events-none opacity-10">
             <div className={cn(
                 "absolute -top-1/2 -left-1/2 w-full h-full bg-white blur-3xl transition-transform duration-1000 group-hover:translate-x-1/2 group-hover:translate-y-1/2",
                 !isAssistant && "hidden"
             )} />
           </div>
 
-          <p className="whitespace-pre-wrap relative z-10">
+          <p className="whitespace-pre-wrap relative z-10 tracking-tight">
             {message.content}
           </p>
           

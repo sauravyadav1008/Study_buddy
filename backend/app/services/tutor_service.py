@@ -16,6 +16,7 @@ class TutorService:
     def __init__(self):
         self.agent = StudyAgent()
         self.assessment_service = AssessmentService()
+        self.gap_detector = GapDetector()
 
     async def reset_user(self, user_id: str):
         try:
@@ -56,7 +57,10 @@ class TutorService:
 
     async def _background_tasks(self, user_id: str, message: str, history: str, profile, session_id: str, output: str):
         try:
-            # 5. Save Session History
+            # 1. Detect Gaps and Update Profile
+            await self.gap_detector.analyze_and_update(user_id, message, history, profile)
+            
+            # 2. Save Session History
             from app.memory.history import SessionHistory, ChatMessage, save_session_history
             from datetime import datetime
             
