@@ -106,17 +106,21 @@ export const useChat = (userId: string) => {
             setLoading(false);
         }
     };
+const submitMCQBatch = async (answers: Record<string, number>) => {
+  try {
+    const results = await assessmentService.batchSubmitMCQ(userId, answers);
+    fetchProfile(); // Update mastery levels
+    return results;
+  } catch (err) {
+    handleSubmissionError(err);
+  }
+};
 
-    const submitMCQBatch = async (answers: Record<string, number>) => {
-        try {
-            const results = await assessmentService.batchSubmitMCQ(userId, answers);
-            fetchProfile(); // Update mastery levels
-            return results;
-        } catch (err) {
-            console.error("Failed to submit MCQ batch", err);
-            throw err;
-        }
-    };
+const handleSubmissionError = (error: any) => {
+  console.error("Failed to submit MCQ batch", error);
+  throw error;
+};
+
 
     const submitQABatch = async (answers: Record<string, string>) => {
         try {
