@@ -31,16 +31,16 @@ def save_session_history(history: SessionHistory):
 
 def get_all_sessions(user_id: str) -> List[SessionHistory]:
     path = get_history_path(user_id)
-    sessions = []
-    if os.path.exists(path):
-        for filename in os.listdir(path):
-            if filename.endswith(".json"):
-                with open(os.path.join(path, filename), "r") as f:
-                    sessions.append(SessionHistory.model_validate_json(f.read()))
-    return sorted(sessions, key=lambda x: x.created_at, reverse=True)
+sessions = []
+if os.path.exists(path):
+    for filename in os.listdir(path):
+        if filename.endswith(".json"):
+            with open(os.path.join(path, filename), "r") as f:
+                sessions.append(SessionHistory.model_validate_json(f.read()))
+return sorted(sessions, key=lambda x: x.created_at, reverse=True)
 
 def clear_history(user_id: str):
-    import shutil
     path = get_history_path(user_id)
+
     if os.path.exists(path):
         shutil.rmtree(path)
